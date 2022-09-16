@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
+        shell: bash
         working-directory: texlive-x64
     permissions:
       contents: read
