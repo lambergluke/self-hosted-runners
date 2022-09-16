@@ -1,0 +1,42 @@
+name: Docker for texlive-x64
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'texlive-x64/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'texlive-x64/**'
+  workflow_dispatch:
+    
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: texlive-x64
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Docker Build
+        shell: bash
+        run: |
+          docker buildx build . -t ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
+          docker images
+
+    - name: Log into registry ${{ env.REGISTRY }}
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}  
+    - name: Docker Publish
+      run: |
+        docker push ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
