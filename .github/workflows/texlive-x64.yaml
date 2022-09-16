@@ -29,7 +29,7 @@ jobs:
       - name: Docker Build
         shell: bash
         run: |
-          docker buildx build . -t ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
+          docker buildx build . -t ghcr.io/lambergluke/texlive-x64:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
           docker images
 
       - name: Log into registry ${{ env.REGISTRY }}
@@ -40,4 +40,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}  
       - name: Docker Publish
         run: |
-          docker push ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
+          docker push ghcr.io/texlive-x64:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)
