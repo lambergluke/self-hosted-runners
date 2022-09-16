@@ -40,4 +40,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}  
       - name: Docker Publish
         run: |
-          docker push ghcr.io/dkoch84/texlive-x64:$(date +%Y%m%d.$GITHUB_RUN_ATTEMPT)
+          docker push ghcr.io/lambergluke/texlive-x64:$(date +%Y%m%d.$GITHUB_RUN_ATTEMPT)
